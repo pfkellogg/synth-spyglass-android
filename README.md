@@ -8,6 +8,8 @@ synth's **real waveform**.
 Made for the M-VAVE FM-1, which needs a computer or tablet in between to play from a USB-only
 keyboard. Free. The Android twin of [Synth Spyglass](https://youtu.be/KoUeE4bOoy0) on the Mac.
 
+**Watch it:** [Synth Spyglass Now on Android](https://youtu.be/jbxL0yW96QM) (1:18)
+
 Questions, or something not working? Write to me: **pfkellogg@gmail.com**
 
 ## Download
