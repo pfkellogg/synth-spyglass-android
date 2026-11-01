@@ -35,12 +35,14 @@ class Scope {
     private long filled, lastAt;
     private volatile boolean stop, dead;
     private Thread thread;
+    private java.io.File wav;
 
     /** The FM-1's USB audio input, or null when it isn't plugged in. */
     static AudioDeviceInfo findDevice(Context ctx) {
         AudioManager am = ctx.getSystemService(AudioManager.class);
-        // For trying it out without an FM-1 (an emulator): any input will do while this file exists.
-        boolean any = new java.io.File(ctx.getFilesDir(), "scope-any-input").exists();
+        // For trying it out without an FM-1 (an emulator): any input will do while this file
+        // exists in the app's folder (Android/data/<app>/files, reachable with adb).
+        boolean any = new java.io.File(ctx.getExternalFilesDir(null), "scope-any-input").exists();
         for (AudioDeviceInfo d : am.getDevices(AudioManager.GET_DEVICES_INPUTS)) {
             if (any) return d;
             int t = d.getType();
@@ -60,6 +62,11 @@ class Scope {
         AudioDeviceInfo dev = findDevice(ctx);
         if (dev == null || !allowed(ctx)) return null;
         Scope s = new Scope();
+        // For making videos: while a file named "save-sound" is in the app's folder
+        // (Android/data/<app>/files, reachable with adb), what it
+        // hears is also saved there, as fm1-<time>.wav (the same sound the waveform shows).
+        if (new java.io.File(ctx.getExternalFilesDir(null), "save-sound").exists())
+            s.wav = new java.io.File(ctx.getExternalFilesDir(null), "fm1-" + System.currentTimeMillis() + ".wav");
         s.thread = new Thread(() -> s.listen(dev), "FM-1 sound");
         s.thread.start();
         return s;
@@ -84,9 +91,23 @@ class Scope {
             rec.setPreferredDevice(dev);
             rec.startRecording();
             short[] buf = new short[1024];
+            java.io.RandomAccessFile out = null;
+            if (wav != null) {
+                out = new java.io.RandomAccessFile(wav, "rw");
+                out.write(new byte[44]);  // the header, written at the end
+            }
+            byte[] bytes = new byte[buf.length * 2];
             while (!stop) {
                 int n = rec.read(buf, 0, buf.length);
                 if (n < 0) break;
+                if (out != null && n > 0) {
+                    for (int i = 0; i < n; i++) {
+                        bytes[2 * i] = (byte) buf[i];
+                        bytes[2 * i + 1] = (byte) (buf[i] >> 8);
+                    }
+                    out.write(bytes, 0, 2 * n);
+                    if ((out.length() & 0x3ffff) < 2 * n) finishWav(out);  // every few seconds, so it's always playable
+                }
                 synchronized (this) {
                     for (int i = 0; i < n; i++) {
                         ring[head] = buf[i] / 32768f;
@@ -96,7 +117,11 @@ class Scope {
                     if (n > 0) lastAt = System.currentTimeMillis();
                 }
             }
-        } catch (RuntimeException e) {
+            if (out != null) {
+                finishWav(out);
+                out.close();
+            }
+        } catch (RuntimeException | java.io.IOException e) {
             Log.w("MidiBridge", "FM-1 sound", e);
         } finally {
             if (rec != null) {
@@ -108,6 +133,19 @@ class Scope {
             }
             dead = true;  // unplugged or stopped: the spyglass looks again later
         }
+    }
+
+    /** Fills in a WAV header (16-bit mono at RATE) for what's been written so far. */
+    private static void finishWav(java.io.RandomAccessFile f) throws java.io.IOException {
+        long data = f.length() - 44;
+        java.nio.ByteBuffer h = java.nio.ByteBuffer.allocate(44).order(java.nio.ByteOrder.LITTLE_ENDIAN);
+        h.put("RIFF".getBytes()).putInt((int) (36 + data)).put("WAVEfmt ".getBytes()).putInt(16).putShort((short) 1)
+                .putShort((short) 1).putInt(RATE).putInt(RATE * 2).putShort((short) 2).putShort((short) 16)
+                .put("data".getBytes()).putInt((int) data);
+        long at = f.getFilePointer();
+        f.seek(0);
+        f.write(h.array());
+        f.seek(at);
     }
 
     /** Hearing it now. */

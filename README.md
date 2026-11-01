@@ -91,8 +91,10 @@ Java 17 and the Android SDK:
 
 - `Bridge.java`: keyboard → synth, with held-note tracking for All notes off and chord names.
 - `Spyglass.java`: the window over other apps; the brass eyepiece is drawn in its `GlassView`.
-- `Scope.java`: the FM-1's USB sound, kept for the waveform. A file named `scope-any-input` in the
-  app's files folder makes any audio input count, for trying it on an emulator.
+- `Scope.java`: the FM-1's USB sound, kept for the waveform. Two test switches, files in the app's
+  folder `Android/data/com.pfkellogg.synthspyglass/files` (`adb push`): `scope-any-input` makes any
+  audio input count (for an emulator), and `save-sound` also saves what it hears there as
+  `fm1-<time>.wav` (for making videos: the same sound the waveform shows).
 - `StaffView.java`, `Chord.java`: the staff and the chord names.
 - `WifiMidiService.java`, `BridgeMidiService.java`: the "Mac (Wi-Fi)" and "MIDI Bridge" MIDI devices.
 
