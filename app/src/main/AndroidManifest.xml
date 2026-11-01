@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
 
-        <!-- "MIDI Bridge" virtual device (the name other apps see): lets other apps play through the bridge. -->
+        <!-- "Synth Spyglass" virtual device (the name other apps see): lets other apps play through the bridge. -->
         <service
             android:name=".BridgeMidiService"
             android:exported="true"

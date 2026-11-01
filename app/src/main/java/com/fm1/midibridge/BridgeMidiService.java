@@ -6,7 +6,7 @@ import android.media.midi.MidiReceiver;
 import java.io.IOException;
 
 /**
- * Publishes the bridge as a MIDI device named "MIDI Bridge" with one input
+ * Publishes the bridge as a MIDI device named "Synth Spyglass" with one input
  * port. Android lets only one app at a time send to a USB synth, so while the
  * bridge holds the FM-1, other apps send here instead and their notes are
  * mixed into the bridge's stream to the TO device.

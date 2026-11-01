@@ -66,8 +66,8 @@ turns it off.
 ## Also in the app
 
 - **All notes off**, if a note ever gets stuck.
-- **Other apps can play the synth too:** Synth Spyglass offers a MIDI input called "MIDI Bridge" that
-  goes to the same synth, for a piano-lesson or karaoke app.
+- **Other apps can play the synth too:** Synth Spyglass offers a MIDI input called "Synth Spyglass"
+  that goes to the same synth, for a piano-lesson or karaoke app.
 - **A computer's keyboard over Wi-Fi:** FROM **Mac (Wi-Fi)** takes the notes from MIDI Bridge on a
   computer on the same network.
 - Keyboards knocked onto another MIDI channel still play: the FM-1 listens on channel 1 only, so
@@ -76,7 +76,8 @@ turns it off.
 ## Works with MIDI Bridge
 
 This app grew out of the Android MIDI Bridge and does everything it does. Use one at a time: only one
-app can hold the keyboard.
+app can hold the keyboard (switch MIDI Bridge OFF first). Synth Spyglass leaves MIDI Bridge's own
+"Mac (Wi-Fi)" and "MIDI Bridge" devices out of its lists, so it never picks them by mistake.
 
 ## Build it yourself
 
@@ -96,7 +97,7 @@ Java 17 and the Android SDK:
   audio input count (for an emulator), and `save-sound` also saves what it hears there as
   `fm1-<time>.wav` (for making videos: the same sound the waveform shows).
 - `StaffView.java`, `Chord.java`: the staff and the chord names.
-- `WifiMidiService.java`, `BridgeMidiService.java`: the "Mac (Wi-Fi)" and "MIDI Bridge" MIDI devices.
+- `WifiMidiService.java`, `BridgeMidiService.java`: the "Mac (Wi-Fi)" and "Synth Spyglass" MIDI devices.
 
 ## License
 

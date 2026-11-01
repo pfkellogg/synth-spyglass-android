@@ -388,8 +388,17 @@ public final class Bridge {
     private boolean isOwnDevice(MidiDeviceInfo info) {
         Bundle p = info.getProperties();
         return info.getType() == MidiDeviceInfo.TYPE_VIRTUAL
-                && "MIDI Bridge".equals(p.getString(MidiDeviceInfo.PROPERTY_PRODUCT))
-                && "Android USB MIDI Bridge".equals(p.getString(MidiDeviceInfo.PROPERTY_MANUFACTURER));
+                && "Synth Spyglass".equals(p.getString(MidiDeviceInfo.PROPERTY_PRODUCT))
+                && "Synth Spyglass".equals(p.getString(MidiDeviceInfo.PROPERTY_MANUFACTURER));
+    }
+
+    /**
+     * The MIDI Bridge app's own devices, when it's installed too: its "Mac (Wi-Fi)" would fight ours
+     * for the same network port, and its "MIDI Bridge" input leads into that other app.
+     */
+    private static boolean isMidiBridgeApp(MidiDeviceInfo info) {
+        return info.getType() == MidiDeviceInfo.TYPE_VIRTUAL
+                && "Android USB MIDI Bridge".equals(info.getProperties().getString(MidiDeviceInfo.PROPERTY_MANUFACTURER));
     }
 
     /** Sustain off + all notes off on every channel, so nothing's left hanging. */
@@ -546,7 +555,8 @@ public final class Bridge {
             return;
         }
         for (MidiDeviceInfo info : midi.getDevices()) {
-            if (isOwnDevice(info)) continue;   // our own "MIDI Bridge" input for other apps
+            if (isOwnDevice(info)) continue;   // our own "Synth Spyglass" input for other apps
+            if (isMidiBridgeApp(info)) continue;
             int outs = info.getOutputPortCount();
             for (int i = 0; i < outs; i++) {
                 sources.add(new PortRef(info, i, portLabel(info, MidiDeviceInfo.PortInfo.TYPE_OUTPUT, i, outs)));
