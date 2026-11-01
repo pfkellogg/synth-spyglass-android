@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MIDI from a computer's MIDI Bridge on the home network (WifiMidiService). -->
+<devices>
+    <device manufacturer="Android USB MIDI Bridge" product="Mac (Wi-Fi)">
+        <output-port name="keyboard" />
+    </device>
+</devices>

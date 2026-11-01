@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lets other apps (e.g. Karaoke MIDI Mash) play through the bridge's TO device. -->
+<devices>
+    <device manufacturer="Android USB MIDI Bridge" product="MIDI Bridge">
+        <input-port name="to synth" />
+    </device>
+</devices>
