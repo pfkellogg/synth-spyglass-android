@@ -10,6 +10,10 @@ keyboard. Free. The Android twin of [Synth Spyglass](https://youtu.be/KoUeE4bOoy
 
 **Watch it:** [Synth Spyglass Now on Android](https://youtu.be/jbxL0yW96QM) (1:18)
 
+**Want the FM-1's screen big on the tablet too?** [FM-1 Mirror + Spyglass](https://github.com/pfkellogg/fm1-mirror-spyglass-android) is one app with the
+FM-1's screen, the MIDI bridge and the spyglass ([video](https://youtu.be/XDqrabQf5uY)). On Android only one app at a time
+can play the FM-1, so use that one instead of this one when you want the big screen.
+
 Questions, or something not working? Write to me: **pfkellogg@gmail.com**
 
 ## Download
