@@ -53,6 +53,8 @@ class Spyglass {
     private static final int BRASS_DARK = Color.rgb(0x8a, 0x62, 0x24);
     private static final int BRASS_SHADOW = Color.rgb(0x3e, 0x2a, 0x0e);
     private static final long CHORD_SETTLE_MS = 100;
+    private static final long HOLD_MS = 3000;   // a note or chord stays this long after the last key comes up
+    private long releasedAt = -1;
     private static final long HANDLES_MS = 4000;
 
     private static Spyglass instance;
@@ -143,7 +145,7 @@ class Spyglass {
             glass = null;
             return;
         }
-        if (bridge.lastNoteNum() >= 0) showNote(bridge.lastNoteNum());
+        if (bridge.keysDown().length > 0 && bridge.lastNoteNum() >= 0) showNote(bridge.lastNoteNum());
         else showNothing();
         seenNoteOns = bridge.noteOnCount();
         ui.post(ticker);
@@ -354,7 +356,8 @@ class Spyglass {
         shownNotes = null;
         shownChord = null;
         shownVel = -1;
-        staff.setVisibility(View.GONE);
+        staff.setVisibility(View.VISIBLE);   // the staves stay, empty, over "play a note"
+        staff.setNotes();
         glass.invalidate();
     }
 
@@ -418,7 +421,7 @@ class Spyglass {
             if (listening) label(c, "♪ FM-1", cx, cy - d * 0.345f, d * 0.045f, d * 0.42f, BRASS_LIGHT);
             String name, detail;
             if (shownNotes == null) {
-                name = "♪";
+                name = "";
                 detail = "play a note";
             } else if (shownChord != null) {
                 name = shownChord;
@@ -436,7 +439,7 @@ class Spyglass {
                 detail = String.format(Locale.US, "%s   %.0f Hz", Bridge.noteName(n), Bridge.noteHz(n));
                 if (shownVel > 0) detail += "   vel " + shownVel;
             }
-            label(c, name, cx, cy - d * 0.195f, shownChord != null ? d * 0.19f : d * 0.24f, d * 0.72f, Color.WHITE);
+            if (!name.isEmpty()) label(c, name, cx, cy - d * 0.195f, shownChord != null ? d * 0.19f : d * 0.24f, d * 0.72f, Color.WHITE);
             if (listening) {
                 // The FM-1's real waveform, right of the staff; a flat grey line while it's quiet.
                 r.set(cx + d * 0.02f, cy + d * 0.0f, cx + d * 0.32f, cy + d * 0.2f);
@@ -564,6 +567,16 @@ class Spyglass {
                     chordArmed = false;
                     String chord = Chord.name(keys);
                     if (chord != null) showChord(keys, chord);
+                }
+            }
+            if (shownNotes == null || bridge.keysDown().length > 0) {
+                releasedAt = -1;
+            } else {
+                long now = System.currentTimeMillis();
+                if (releasedAt < 0) releasedAt = now;
+                else if (now - releasedAt >= HOLD_MS) {
+                    releasedAt = -1;
+                    showNothing();
                 }
             }
             ui.postDelayed(this, 50);
