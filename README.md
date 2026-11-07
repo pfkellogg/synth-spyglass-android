@@ -52,7 +52,7 @@ The FM-1's sound still comes out of its own headphone jack, as always.
      FM-1, and only while the spyglass is on.
 4. Open your lesson, video or other app: the spyglass stays on top.
 
-From 1.0.2 (next release) a note or chord clears 3 seconds after the last key comes up, leaving empty staves over "play a note".
+From 1.0.2 a note or chord clears 3 seconds after the last key comes up, leaving empty staves over "play a note", and the staves are larger.
 
 ## The spyglass
 

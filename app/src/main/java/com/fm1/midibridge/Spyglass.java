@@ -224,8 +224,8 @@ class Spyglass {
     /** The staff in the middle; to the left, with the waveform to its right, while the FM-1 is heard. */
     private void placeStaff() {
         boolean side = hearing();
-        int w = Math.round(size * (side ? 0.29f : 0.34f)), h = Math.round(w * 1.06f);
-        float cx = size / 2f + (side ? -size * 0.17f : 0), cy = size / 2f + size * (side ? 0.1f : 0.11f);
+        int w = Math.round(size * (side ? 0.42f : 0.45f)), h = Math.round(w * 1.06f); // the staff is what's read
+        float cx = size / 2f + (side ? -size * 0.165f : 0), cy = size / 2f + size * 0.087f;
         FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(w, h, Gravity.TOP | Gravity.START);
         slp.leftMargin = Math.round(cx - w / 2f);
         slp.topMargin = Math.round(cy - h / 2f);
@@ -439,10 +439,10 @@ class Spyglass {
                 detail = String.format(Locale.US, "%s   %.0f Hz", Bridge.noteName(n), Bridge.noteHz(n));
                 if (shownVel > 0) detail += "   vel " + shownVel;
             }
-            if (!name.isEmpty()) label(c, name, cx, cy - d * 0.195f, shownChord != null ? d * 0.19f : d * 0.24f, d * 0.72f, Color.WHITE);
+            if (!name.isEmpty()) label(c, name, cx, cy - d * 0.215f, shownChord != null ? d * 0.10f : d * 0.115f, d * 0.72f, Color.WHITE);
             if (listening) {
                 // The FM-1's real waveform, right of the staff; a flat grey line while it's quiet.
-                r.set(cx + d * 0.02f, cy + d * 0.0f, cx + d * 0.32f, cy + d * 0.2f);
+                r.set(cx + d * 0.075f, cy - d * 0.02f, cx + d * 0.355f, cy + d * 0.19f);
                 p.setStyle(Paint.Style.STROKE);
                 p.setStrokeWidth(Math.max(2 * density, d * 0.006f));
                 p.setStrokeJoin(Paint.Join.ROUND);
@@ -462,10 +462,10 @@ class Spyglass {
                 }
                 c.drawPath(line, p);
             }
-            label(c, detail, cx, cy + d * 0.325f, Math.max(13 * density, d * 0.065f), d * 0.54f, Color.WHITE);
+            label(c, detail, cx, cy + d * 0.365f, Math.max(12 * density, d * 0.055f), d * 0.54f, Color.WHITE);
             if (shownChord == null && shownVel > 0) {
                 // How hard the key was hit: a short brass bar under it, full at 127.
-                float w = d * 0.26f, h = Math.max(3 * density, d * 0.012f), top = cy + d * 0.37f - h / 2;
+                float w = d * 0.26f, h = Math.max(3 * density, d * 0.012f), top = cy + d * 0.405f - h / 2;
                 p.setStyle(Paint.Style.FILL);
                 p.setColor(BRASS_SHADOW);
                 r.set(cx - w / 2, top, cx + w / 2, top + h);
