@@ -436,7 +436,7 @@ class Spyglass {
             } else {
                 int n = shownNotes[0];
                 name = Bridge.pitchClass(n);
-                detail = String.format(Locale.US, "%s   %.0f Hz", Bridge.noteName(n), Bridge.noteHz(n));
+                detail = String.format(Locale.US, "%s   %.1f Hz", Bridge.noteName(n), Bridge.noteHz(n));
                 if (shownVel > 0) detail += "   vel " + shownVel;
             }
             if (!name.isEmpty()) label(c, name, cx, cy - d * 0.215f, shownChord != null ? d * 0.10f : d * 0.115f, d * 0.72f, Color.WHITE);
