@@ -59,7 +59,9 @@ From 1.0.2 a note or chord clears 3 seconds after the last key comes up, leaving
 ## The spyglass
 
 - **Note or chord:** the name big (E, or Cmaj7), the notes on a grand staff, and under them the full
-  name and pitch ("E4 330 Hz"), or the keys held and the interval.
+  name and pitch ("E4 329.6 Hz", to one decimal), or the keys held and the interval.
+- **Never stuck waiting:** each device is picked up the moment it's plugged in, and the spyglass shows the
+  keyboard even while the synth isn't there yet.
 - **How hard you hit the key:** "vel 96" and a brass bar, full at 127. It shows once the keyboard has
   sent two different velocities (some keyboards play every note at the same one).
 - **The FM-1's real waveform**, beside the staff, standing still like an oscilloscope's, with
