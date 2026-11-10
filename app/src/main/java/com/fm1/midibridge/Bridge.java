@@ -239,7 +239,7 @@ public final class Bridge {
                 + "that it's switched on, and the hub's power.";
         if (!on) return "Stopped.";
         if (connecting) return "Connecting…";
-        return "Waiting for both devices to be plugged in…";
+        return "Plug in the keyboard and the synth: each is picked up the moment it's plugged in.";
     }
 
     /** One line for the notification. */
@@ -247,7 +247,7 @@ public final class Bridge {
         if (toPort != null && fromPort != null) return connectedFrom + " → " + connectedTo;
         if (notesOnly && fromPort != null) return "Notes from " + connectedFrom;
         if (error != null) return error;
-        return connecting ? "Connecting…" : "Waiting for both devices…";
+        return connecting ? "Connecting…" : "Plug in the keyboard and the synth";
     }
 
     public long msgCount() {
