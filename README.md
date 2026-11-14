@@ -1,5 +1,7 @@
 # Synth Spyglass for Android
 
+☕ If this helps you make music, you can [buy me a coffee on Ko-fi](https://ko-fi.com/aikellogg).
+
 Play your synth from a USB keyboard through an **Android tablet or phone**, and watch every note in
 a **spyglass**: a round, see-through window that floats over every app (a YouTube lesson, Skoove,
 anything) and shows the note or chord big, the notes on a staff, how hard you hit the key, and the
